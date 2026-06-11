@@ -32,7 +32,7 @@
 
   <!-- Ensure the Firebase credentials folder is included in the publish output -->
   <ItemGroup>
-    <Content Include="Config\**\*">
+    <Content Update="Config\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
