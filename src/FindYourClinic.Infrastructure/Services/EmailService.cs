@@ -18,7 +18,15 @@ public class EmailService : IEmailService
 
     public Task SendPasswordResetEmailAsync(string toEmail, string resetLink)
     {
-        var body = $"<p>Reset your password using this link:</p><p><a href=\"{resetLink}\">{resetLink}</a></p>";
+        var body = $@"
+<div style=""font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;"">
+    <h2 style=""color: #333; text-align: center;"">Password Reset Request</h2>
+    <p style=""color: #555; font-size: 16px;"">We received a request to reset the password for your Find Your Clinic account. You can reset your password by clicking the button below:</p>
+    <div style=""text-align: center; margin: 30px 0;"">
+        <a href=""{resetLink}"" style=""background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold; display: inline-block;"">Click here to reset password</a>
+    </div>
+    <p style=""color: #777; font-size: 14px;"">If you did not request a password reset, please ignore this email.</p>
+</div>";
         return SendEmailAsync(toEmail, "Reset Your Password", body, true);
     }
 
