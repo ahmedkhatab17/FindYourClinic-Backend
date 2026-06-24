@@ -18,7 +18,9 @@ using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddLocalization();
+builder.Services.AddControllers()
+    .AddDataAnnotationsLocalization();
 builder.Services.AddProblemDetails();
 builder.Services.AddHttpClient();
 builder.Services.AddHostedService<AccountCleanupBackgroundService>();
@@ -148,6 +150,14 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+var supportedCultures = new[] { "en", "ar" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture("en")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+app.UseRequestLocalization(localizationOptions);
 
 using (var scope = app.Services.CreateScope())
 {
