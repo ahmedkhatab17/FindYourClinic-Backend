@@ -44,6 +44,15 @@ public class SearchDoctorsQueryHandler : IRequestHandler<SearchDoctorsQuery, Api
         if (query.MaxFee.HasValue)
             doctorQuery = doctorQuery.Where(x => x.ConsultationFee <= query.MaxFee.Value);
 
+        if (!string.IsNullOrWhiteSpace(query.Name))
+        {
+            var nameLower = query.Name.Trim().ToLower();
+            doctorQuery = doctorQuery.Where(x => 
+                (x.User.FirstName + " " + x.User.LastName).ToLower().Contains(nameLower) ||
+                (x.ClinicName != null && x.ClinicName.ToLower().Contains(nameLower))
+            );
+        }
+
         var projected = doctorQuery.Select(doctor => new DoctorSearchProjection
         {
             DoctorId = doctor.UserId,
